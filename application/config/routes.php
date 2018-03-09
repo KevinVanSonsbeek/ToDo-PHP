@@ -49,8 +49,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['todo'] = "todo";
-$route['page/(:any)'] = "page/loadPage/$1";
-$route['default_controller'] = 'page';
-$route['404_override'] = '';
+//$route["list/(:num)"] = "todo/getListByID/$1";
+//$route["task/edit/(:num)"] = "todo/showUpdateTask/$1";
+//$route["task/add/(:num)"] = "todo/showCreateTask/$1";
+
+//$route["list/(:num)/task/add"] = "todo/showCreateTask/$1";
+
+//$route["list/(:num)/task/delete/(:num)"] = "todo/showDeleteTask/$1/$2";
+
+$route['default_controller'] = 'todo';
+$route['404_override'] = 'todo';
 $route['translate_uri_dashes'] = FALSE;

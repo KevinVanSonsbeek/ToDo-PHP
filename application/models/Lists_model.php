@@ -16,4 +16,25 @@ class Lists_model extends CI_Model {
 
         return $queryData;
     }
+
+	public function getListInformation($list_id) {
+		$sql = "SELECT * FROM lists where list_id=?";
+		$query = $this->db->query($sql, $list_id);
+
+        $queryData = json_encode($query->result());
+
+        return $queryData;
+	}
+
+	public function create() {
+	
+	}
+
+	public function update() {
+	
+	}
+
+	public function delete($list_id) {
+	
+	}
 }
