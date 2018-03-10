@@ -80,6 +80,14 @@ class Tasks_model extends CI_Model {
 		$sql = "DELETE FROM tasks WHERE task_id=?";
 		return $query = $this->db->query($sql, array($id));
 	}
+	/**
+	* Delete all tasks from list_id
+	*/
+	public function deleteFromListID($data){
+		$list_id = $data;
+		$sql = "DELETE FROM tasks WHERE list_id=?";
+		return $qury = $this->db->query($sql, array($list_id));
+	}
 
 //------------------------------//
 

@@ -48,7 +48,7 @@ class Todo extends CI_Controller {
 		
 		$this->load->view("master/header");
 		$this->load->view("master/menu");
-		$this->load->view("list/createList");
+		$this->load->view("list/listCreate");
 		$this->load->view("master/footer");
 	}
 
@@ -58,9 +58,9 @@ class Todo extends CI_Controller {
 	*/
 	public function createList() {
 		$data = $_POST;
-		$this->listsModel->create($data);
-		//Return list id
-		//header('Location: ' . base_url() . "list/" . $_POST['list_id']);
+		if($this->listsModel->create($data)) {
+			header('Location: ' . base_url());
+		}
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Todo extends CI_Controller {
 	public function updateList() {
 		$data = $_POST;
 		if($this->listsModel->update($data)) {
-			header('Location: ' . base_url() . "list/" . $_POST['list_id']);
+			header('Location: ' . base_url() . "todo/showListByID/" . $_POST['list_id']);
 		}
 	}
 
@@ -110,10 +110,27 @@ class Todo extends CI_Controller {
 	/**
 	* Show Delete list
 	*/
+	public function showDeleteList($list_id) {
+		$data["list_data"] = json_decode($this->getListByID($list_id), true)[0];
+
+		$this->load->view('master/header');
+        $this->load->view('master/menu');
+		$this->load->view("list/listDelete", $data);
+		$this->load->view("master/footer");	
+	}
 
 	/**
 	* Delete list
 	*/
+	public function deleteList() {
+		$data = $_POST;
+
+		if($this->listsModel->delete($data['list_id'])) {
+			if($this->tasksModel->deleteFromListID($data['list_id'])) {
+				header('Location: ' . base_url());
+			}
+		}
+	}
 
 	/**
 	* Show Delete task
@@ -148,10 +165,6 @@ class Todo extends CI_Controller {
 		$listInfoArray = $this->listsModel->getListInformation($list_id);
 		return $listInfoArray;
 	}
-
-	
-
-/**READ/GET**/
 	
 	/**
 	* Get task by id
@@ -178,10 +191,13 @@ class Todo extends CI_Controller {
 
 		$this->load->view('master/header');
         $this->load->view('master/menu');
-        $this->load->view("pages/tasksList", $data);
+        $this->load->view("list/listShow", $data);
 		$this->load->view("master/footer");
 	}
 
+	/**
+	* Get all lists
+	*/
 	public function lists() {
 		$data['lists'] = json_decode($this->listsModel->getAllLists(), true);
 

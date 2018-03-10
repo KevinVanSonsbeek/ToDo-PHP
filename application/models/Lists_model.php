@@ -26,15 +26,31 @@ class Lists_model extends CI_Model {
         return $queryData;
 	}
 
-	public function create() {
-	
+	/**
+	* Create List
+	*/
+	public function create($data) {
+		$sql = "INSERT INTO lists (list_name, list_description) VALUES (?, ?)";
+		return $query = $this->db->query($sql, array($data['list_name'], $data['list_description']));
 	}
 
-	public function update() {
-	
+
+	/**
+	* Update list
+	*/
+	public function update($data) {
+		print_r($data);
+		echo "Tets";
+		$sql = "UPDATE lists SET list_name=?, list_description=? WHERE list_id=?";
+		return $query = $this->db->query($sql, array($data['list_name'], $data['list_description'], $data['list_id']));
 	}
 
-	public function delete($list_id) {
-	
+	/**
+	* Delete list
+	*/
+	public function delete($data) {
+		$id = $data;
+		$sql = "DELETE FROM lists WHERE list_id=?";
+		return $query = $this->db->query($sql, array($id));
 	}
 }
